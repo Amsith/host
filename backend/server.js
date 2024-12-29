@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
@@ -9,19 +11,8 @@ app.use(cors())
 
 
 
-//Server
-const port = 8000;
-app.listen(port, () => {
-    console.log('Server connected  ' + port);
-});
-//   http://localhost:8000/todo
 
 
-//  mongodb+srv://amsith:MuG8okIi0gCwVWhi@amsithdev.7ikom.mongodb.net/?retryWrites=true&w=majority&appName=AmsithDev
-//Mongo DB
-mongoose.connect('mongodb+srv://amsith:MuG8okIi0gCwVWhi@amsithdev.7ikom.mongodb.net/todo-app?retryWrites=true&w=majority&appName=AmsithDev')
-    .then(() => { console.log('DB Connected') })
-    .catch((err) => { console.log(err) })
 
 // Schema
 const todoSchema = new mongoose.Schema({
@@ -39,6 +30,11 @@ const todoSchema = new mongoose.Schema({
 const todoModel = mongoose.model('Todo', todoSchema)
 
 
+//  mongodb+srv://amsith:MuG8okIi0gCwVWhi@amsithdev.7ikom.mongodb.net/?retryWrites=true&w=majority&appName=AmsithDev
+//Mongo DB
+mongoose.connect(process.env.MONGO_URI)
+.then(() => console.log('DB Connected'))
+.catch((err) => console.log(err));
 
 
 
@@ -48,7 +44,7 @@ const todoModel = mongoose.model('Todo', todoSchema)
 
 //Create 
 app.post('/todos', async (req, res) => {
-    
+
     const { name, age } = req.body;
     try {
         const newTodo = new todoModel({ name, age });
@@ -117,15 +113,23 @@ app.put('/todos/:id', async (req, res) => {
 
 
 //Delete 
-app.delete('/todos/:id', async (req,res)=>{
+app.delete('/todos/:id', async (req, res) => {
 
     try {
-        const id =req.params.id;
+        const id = req.params.id;
         await todoModel.findByIdAndDelete(id);
         res.status(204).end()
     } catch (error) {
         console.log(error)
         res.status(500).json({ message: error.message })
     }
- 
+
 })
+
+//Server
+const port = process.env.PORT;
+app.listen(port, () => {
+    console.log('Server connected  ' + port);
+});
+//   http://localhost:8000/todo
+
