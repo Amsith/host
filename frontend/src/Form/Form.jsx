@@ -4,16 +4,16 @@ import './Form.css';
 import { Link } from 'react-router-dom';
 
 const Form = () => {
+
     const [name, setName] = useState('');
     const [age, setAge] = useState('');
     const [message, setMessage] = useState('')
 
     const submit = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/todos', { name, age },{
+        axios.post('http://localhost:3000/todos', { name, age }, {
             headers:{
                 name:name
-
             }
         })
             .then((res) => {

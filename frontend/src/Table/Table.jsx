@@ -8,7 +8,7 @@ const Table = () => {
 
 
   function show() {
-    axios.get('http://localhost:8000/todos')
+    axios.get('http://localhost:3000/todos')
       .then((res) => { setTable(res.data) })
       .catch((error) => {
         console.error("Error fetching data:", error)
@@ -22,7 +22,7 @@ const Table = () => {
 
 ////Delete Function
 function HandleDelete(id){
-  axios.delete(`http://localhost:8000/todos/${id}`)
+  axios.delete(`http://localhost:3000/todos/${id}`)
   .then(()=>{
     show()
   })

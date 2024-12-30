@@ -10,7 +10,7 @@ const Edit = () => {
     const navigate=useNavigate()
 
     useEffect(()=>{
-        axios.get(`http://localhost:8000/todos/${id}`)
+        axios.get(`http://localhost:3000/todos/${id}`)
         .then((res)=>{
             setName(res.data.name)
             setAge(res.data.age)
@@ -19,7 +19,7 @@ const Edit = () => {
 
     const submit = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:8000/todos/${id}`, { name, age })
+        axios.put(`http://localhost:3000/todos/${id}`, { name, age })
             .then(()=>{
                 navigate('/table')
             })
